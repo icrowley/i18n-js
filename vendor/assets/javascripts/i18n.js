@@ -111,10 +111,29 @@ I18n.lookup = function(scope, options) {
   }
 
   scope = scope.split(this.defaultSeparator);
+  var projectScope = scope.slice();
+  projectScope.unshift(I18n.optionalScope);
+  var scopes = [projectScope, scope];
 
-  while (messages && scope.length > 0) {
-    currentScope = scope.shift();
-    messages = messages[currentScope];
+  function clone(obj) {
+    if (obj == null || typeof(obj) != 'object')
+      return obj;
+    var temp = obj.constructor(); // changed
+    for (var key in obj)
+      temp[key] = clone(obj[key]);
+    return temp;
+  }
+
+  for (var i = 0; i < scopes.length; i++) {
+    var msgs = clone(messages);
+    while (msgs && scopes[i].length > 0) {
+      currentScope = scopes[i].shift();
+      msgs = msgs[currentScope];
+    }
+    if (msgs) {
+      messages = msgs;
+      break;
+    }
   }
 
   if (!messages) {

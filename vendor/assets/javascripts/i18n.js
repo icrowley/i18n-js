@@ -118,7 +118,7 @@ I18n.lookup = function(scope, options) {
   }
 
   if (!messages) {
-    messages = I18n.lookup(lookupInitialScope, {locale: locale.replace(I18n.optionalScope + '_', '')});
+    messages = I18n.lookup(lookupInitialScope, {locale: locale.replace('-' + I18n.optionalScope, '')});
   }
 
   if (!messages) {

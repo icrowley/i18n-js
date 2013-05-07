@@ -300,7 +300,7 @@ I18n.toTime = function(scope, d) {
 };
 
 I18n.strftime = function(date, format) {
-  var options = this.lookup("date");
+  var options = this.lookup("date", {locale: I18n.currentLocale().replace('-' + I18n.optionalScope, '')});
 
   if (!options) {
     return date.toString();
